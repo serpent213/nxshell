@@ -13,5 +13,6 @@ package = "esptool"
 [[commands]]
 package = "gnumake"
 
-[[commands]]
-package = "gcc-arm-embedded-13"
+# ARM might be easier...
+# [[commands]]
+# package = "gcc-arm-embedded-13"
