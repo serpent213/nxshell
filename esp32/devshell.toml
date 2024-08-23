@@ -1,0 +1,17 @@
+# https://numtide.github.io/devshell
+
+[devshell]
+name = "NuttX"
+motd = "Welcome to NuttX!"
+
+[[commands]]
+package = "cmake"
+
+[[commands]]
+package = "esptool"
+
+[[commands]]
+package = "gnumake"
+
+[[commands]]
+package = "gcc-arm-embedded-13"
