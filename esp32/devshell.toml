@@ -4,14 +4,17 @@
 name = "NuttX"
 motd = "Welcome to NuttX!"
 
-[[commands]]
-package = "cmake"
+# [[commands]]
+# package = "esp-idf-esp32"
 
-[[commands]]
-package = "esptool"
+# [[commands]]
+# package = "cmake"
 
-[[commands]]
-package = "gnumake"
+# [[commands]]
+# package = "esptool"
+
+# [[commands]]
+# package = "gnumake"
 
 # ARM might be easier...
 # [[commands]]
