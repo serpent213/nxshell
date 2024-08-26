@@ -48,6 +48,7 @@
 
             # NuttX
             esptool
+            kconfig-frontends
             python3Packages.kconfiglib
           ];
         };
