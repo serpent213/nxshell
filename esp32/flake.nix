@@ -14,22 +14,22 @@
     nixpkgs,
     ...
   }:
-    flake-utils.lib.eachDefaultSystem (system: {
-      devShells.default = let
-        # Function to check if an input is a Python environment
-        isPythonEnv = input: builtins.hasAttr "python" input && builtins.hasAttr "pkgs" input.python;
+    flake-utils.lib.eachDefaultSystem (system: let
+      # Function to check if an input is a Python environment
+      isPythonEnv = input: builtins.hasAttr "python" input && builtins.hasAttr "pkgs" input.python;
 
-        pkgs = import nixpkgs {
-          inherit system;
+      pkgs = import nixpkgs {
+        inherit system;
 
-          overlays = [esp-dev.overlays.default];
-        };
-      in
+        overlays = [esp-dev.overlays.default];
+      };
+
+      crossShell = parent:
         pkgs.mkShell {
           packages = with pkgs; [
             # Filter out the bundled Python package, it would collide
             # with our esptool installation and we don't need it.
-            (esp-idf-esp32.overrideAttrs (oldAttrs: {
+            (parent.overrideAttrs (oldAttrs: {
               propagatedBuildInputs = (
                 builtins.filter
                 (input: !(isPythonEnv input))
@@ -51,5 +51,16 @@
             python3Packages.kconfiglib
           ];
         };
+    in {
+      devShells = with pkgs; {
+        default = crossShell esp-idf-esp32;
+        full = crossShell esp-idf-full;
+        esp32 = crossShell esp-idf-esp32;
+        esp32c3 = crossShell esp-idf-esp32c3;
+        esp32s2 = crossShell esp-idf-esp32s2;
+        esp32s3 = crossShell esp-idf-esp32s3;
+        esp32c6 = crossShell esp-idf-esp32c6;
+        esp32h2 = crossShell esp-idf-esp32h2;
+      };
     });
 }
