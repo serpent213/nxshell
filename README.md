@@ -2,6 +2,23 @@
 
 based on https://github.com/mirrexagon/nixpkgs-esp-dev/
 
+This flake provides development shells for embedded RTOS projects using Nix.
+It aims to simplify the setup of consistent build environments for
+MCU development.
+
+## Features
+
+- Reproducible build environments across different machines
+- Isolated package management to prevent dependency conflicts
+- Easy switching between different toolchain versions
+- Declarative configuration of the entire development environment
+
+## Quick Start
+
+1. Ensure Nix is installed on your system
+2. Clone this repository
+3. Enter the development shell:
+
 ## Nix Build System
 
 x86_64 and apple
@@ -11,9 +28,21 @@ x86_64 and apple
 Starting from a clean slate, either NixOS or some other distro with
 [Nix](https://nixos.org/download/) installed on top:
 
-```sh
-$ nix develop .#esp32s3 -c fish
+Clone the flake, so you can add [Nix packages](https://search.nix.org) to your
+environment later on.
 
+Enable Nix flakes (if not done otherwise):
+
+`$ mkdir -p ~/.config/nix && echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf`
+
+This will instantiate a shell with all necessary tools for embedded
+RTOS development:
+
+`$ nix develop "github:serpent213/nxshell?dir=esp32#esp32s3"`
+
+Configure and build NuttX:
+
+```
 $$ cd ~/nuttxspace/nuttx
 
 $$ ./tools/configure.sh -l esp32s3-devkit:wifi
@@ -60,4 +89,31 @@ Successfully created esp32s3 image.
 Generated: nuttx.bin
 ```
 
-**Not ready yet!**
+To create a clone of the flake to be modified according to your requirements:
+
+```
+$ mkdir new
+$ git init
+$ nix flake init -t github:serpent213/nxshell#esp32
+```
+
+## Future Vision
+
+[This flake aims to replace traditional build systems like Make for MCU RTOS development.]
+The goal is to provide a more reliable and reproducible build process, eliminating common
+issues such as toolchain version mismatches or missing dependencies.
+
+By leveraging Nix, we envision a future where building RTOS images is as simple as running
+a single command, resulting in bit-for-bit reproducible builds across different development
+environments.
+
+Contributions and feedback are welcome to help realize this vision and improve embedded
+development workflows.
+
+## To Do
+
+- [ ] Tests/checks
+- [ ] GitHub test runners
+- [ ] Introduce other architectures
+    - [ ] ARM
+    - [ ] Generic RISC-V

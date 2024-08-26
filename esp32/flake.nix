@@ -50,11 +50,17 @@
             esptool
             kconfig-frontends
             python3Packages.kconfiglib
+
+            # Add project related tools here (query https://search.nixos.org)
+            # clang-format
+            # clang-tidy
           ];
         };
     in {
       devShells = with pkgs; {
+        # Change your default here and just run `nix develop` without specifying a flavour
         default = crossShell esp-idf-esp32;
+
         full = crossShell esp-idf-full;
         esp32 = crossShell esp-idf-esp32;
         esp32c3 = crossShell esp-idf-esp32c3;
